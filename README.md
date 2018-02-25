@@ -3,6 +3,8 @@ Demo project that shows how to create native Java applications with small runtim
 
 Javapackager does not optimize for minimal runtime size. JLink on the other hand does not create native launchers (only launch scripts). This can be problematic, e.g., for app distribution to the Windows AppStore. Combining both commands results in optimal runtime images.
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/2fWyhJ2nhjw" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
 ## How to create the App Bundle
 
 ### Requirements
