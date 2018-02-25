@@ -1,5 +1,7 @@
 # NativeJDK9AppTemplate
-Demo project that shows how to create native Java applications with small runtime images (App.exe + Runtime etc.)
+Demo project that shows how to create native Java applications with small runtime images (App.exe + Runtime etc.).
+
+Javapackager does not optimize for minimal size. JLink does not create native launchers (only launch scripts). Combining both results in optimal runtime images.
 
 ## How to create the App Bundle
 
