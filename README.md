@@ -16,7 +16,7 @@ by calling the `createFinalAppBundle` task.
 
 ### Command Line
 
-Navigate to the [Gradle](http://www.gradle.org/) project (e.g., `path/to/VCollections`) and enter the following command
+Navigate to the [Gradle](http://www.gradle.org/) project (e.g., `path/to/NativeJDK9AppTemplate`) and enter the following command
 
 #### Bash (Linux/OS X/Cygwin/other Unix-like shell)
 
