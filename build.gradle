@@ -1,0 +1,88 @@
+// apply java plugin since we develop a java app
+apply plugin: 'java'
+
+// specify source compatibility & encoding
+sourceCompatibility = 1.9
+compileJava.options.encoding = 'UTF-8'
+
+// we use the gradle wrapper in version 4.3
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.5.1'
+    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+}
+
+// repositories used for dependency lookup
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+// dependencies (compile-time, runtime & testing)
+dependencies {
+    // add your dependencies here
+}
+
+def jdk = System.getProperty("java.home")
+def moduleName = "eu.mihosoft.tutorials.nativejdk9apptemplate"
+def mainClass = 'eu.mihosoft.tutorials.nativejdk9apptemplate.Main'
+
+
+// jar file task (we add the main class and classpath attributes to the manifest)
+jar {
+    manifest {
+        attributes(
+                'Main-Class': mainClass,
+        )
+    }
+}
+
+// creates application bundle (executable + runtime)
+task javaPackager(type: Exec, dependsOn: assemble) {
+
+    workingDir project.projectDir
+    commandLine = [
+            'javapackager',
+            '-deploy',
+            '-nosign',
+            '-native', 'image',
+            '-outdir', "${buildDir}/distribution",
+            '-outfile', project.name,
+            '-name', project.name,
+            '-appclass', mainClass,
+            '-p', "${jdk}/jmods${File.pathSeparator}${buildDir}/libs",
+            '--add-modules', moduleName,
+            '-m', "$moduleName/$mainClass"
+    ]
+}
+
+// removes bloated runtime created by javapackager
+task cleanPackagerRuntime(dependsOn: javaPackager) {
+    doLast() {
+        File runtimeFile = new File("${buildDir}/distribution/${project.name}/runtime")
+        runtimeFile.deleteDir()
+        System.out.println("deleting bloated runtime in " + runtimeFile)
+    }
+}
+
+// creates a replacement runtime via jlink command (much smaller than jpackager)
+task createFinalAppBundle(type: Exec, dependsOn: [cleanPackagerRuntime]) {
+
+    workingDir project.projectDir
+    commandLine = [
+            'jlink',
+            '-p', "${jdk}/jmods${File.pathSeparator}${buildDir}/libs",
+            '--add-modules', moduleName,
+            '--strip-debug',
+            '--no-header-files',
+            '--no-man-pages',
+            '--strip-native-commands',
+            "--vm=server",
+            "--compress=2",
+            '--output', "${buildDir}/distribution/${project.name}/runtime"
+    ]
+
+    doLast{
+        System.out.println("Application '${project.name}' packaged.")
+        System.out.println(" -> location: ${buildDir}/distribution/${project.name}/")
+    }
+}
