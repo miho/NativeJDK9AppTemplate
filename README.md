@@ -17,7 +17,7 @@ Javapackager does not optimize for minimal runtime size. JLink on the other hand
 
 ### IDE
 
-Open the `VCollections` [Gradle](http://www.gradle.org/) project in your favourite IDE (tested with NetBeans 8.2) and build it
+Open the `NativeJDK9AppTemplate` [Gradle](http://www.gradle.org/) project in your favourite IDE (tested with NetBeans 8.2) and build it
 by calling the `createFinalAppBundle` task.
 
 ### Command Line
