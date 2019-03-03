@@ -11,7 +11,7 @@ Javapackager does not optimize for minimal runtime size. JLink on the other hand
 
 ### Requirements
 
-- Java >= 1.9
+- Java 1.9 - 10 (12 coming soon)
 - Internet connection (dependencies are downloaded automatically)
 - IDE: [Gradle](http://www.gradle.org/) Plugin (not necessary for command line usage)
 
